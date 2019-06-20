@@ -8,7 +8,6 @@
 # include "me_balance.h"
 # include "me_market.h"
 # include "me_trade.h"
-# include "me_persist.h"
 # include "me_operlog.h"
 # include "me_history.h"
 # include "me_message.h"
@@ -170,13 +169,6 @@ error:
     return sdsnew("usage market summary\n");
 }
 
-static sds on_cmd_makeslice(const char *cmd, int argc, sds *argv)
-{
-    time_t now = time(NULL);
-    make_slice(now);
-    return sdsnew("OK\n");
-}
-
 int init_cli(void)
 {
     svr = cli_svr_create(&settings.cli);
@@ -187,7 +179,6 @@ int init_cli(void)
     cli_svr_add_cmd(svr, "status", on_cmd_status);
     cli_svr_add_cmd(svr, "balance", on_cmd_balance);
     cli_svr_add_cmd(svr, "market",  on_cmd_market);
-    cli_svr_add_cmd(svr, "makeslice", on_cmd_makeslice);
 
     return 0;
 }

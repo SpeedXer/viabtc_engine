@@ -4,14 +4,13 @@
  */
 
 # include "me_config.h"
-# include "me_operlog.h"
 # include "me_market.h"
 # include "me_balance.h"
 # include "me_update.h"
 # include "me_trade.h"
-# include "me_persist.h"
 # include "me_history.h"
 # include "me_message.h"
+# include "me_operlog.h"
 # include "me_cli.h"
 # include "me_server.h"
 
@@ -103,10 +102,6 @@ int main(int argc, char *argv[])
     daemon(1, 1);
     process_keepalive();
 
-    ret = init_from_db();
-    if (ret < 0) {
-        error(EXIT_FAILURE, errno, "init from db fail: %d", ret);
-    }
     ret = init_operlog();
     if (ret < 0) {
         error(EXIT_FAILURE, errno, "init oper log fail: %d", ret);
@@ -115,14 +110,12 @@ int main(int argc, char *argv[])
     if (ret < 0) {
         error(EXIT_FAILURE, errno, "init history fail: %d", ret);
     }
+
     ret = init_message();
     if (ret < 0) {
         error(EXIT_FAILURE, errno, "init message fail: %d", ret);
     }
-    ret = init_persist();
-    if (ret < 0) {
-        error(EXIT_FAILURE, errno, "init persist fail: %d", ret);
-    }
+
     ret = init_cli();
     if (ret < 0) {
         error(EXIT_FAILURE, errno, "init cli fail: %d", ret);
@@ -142,7 +135,6 @@ int main(int argc, char *argv[])
 
     fini_message();
     fini_history();
-    fini_operlog();
 
     return 0;
 }
