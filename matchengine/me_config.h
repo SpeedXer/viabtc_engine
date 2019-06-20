@@ -77,7 +77,8 @@ struct settings {
     size_t              asset_num;
     struct asset        *assets;
 
-    size_t              market_num;
+    int                 market_size;
+    int                 market_num;
     struct market       *markets;
 
     char                *brokers;

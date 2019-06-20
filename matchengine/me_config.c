@@ -38,7 +38,7 @@ static int load_markets(json_t *root, const char *key)
     }
 
     settings.market_num = json_array_size(node);
-    settings.markets = malloc(sizeof(struct market) * settings.market_num);
+    settings.markets = malloc(sizeof(struct market) * settings.market_size);
     for (size_t i = 0; i < settings.market_num; ++i) {
         json_t *row = json_array_get(node, i);
         if (!json_is_object(row))
@@ -46,18 +46,17 @@ static int load_markets(json_t *root, const char *key)
         ERR_RET_LN(read_cfg_str(row, "name", &settings.markets[i].name, NULL));
         ERR_RET_LN(read_cfg_int(row, "fee_prec", &settings.markets[i].fee_prec, false, 4));
         ERR_RET_LN(read_cfg_mpd(row, "min_amount", &settings.markets[i].min_amount, "0.01"));
+        ERR_RET_LN(read_cfg_int(row, "stock_prec", &settings.markets[i].stock_prec, true, 8));
+        ERR_RET_LN(read_cfg_int(row, "money_prec", &settings.markets[i].money_prec, true, 8));
 
-        json_t *stock = json_object_get(row, "stock");
-        if (!stock || !json_is_object(stock))
-            return -__LINE__;
-        ERR_RET_LN(read_cfg_str(stock, "name", &settings.markets[i].stock, NULL));
-        ERR_RET_LN(read_cfg_int(stock, "prec", &settings.markets[i].stock_prec, true, 0));
+        int argc;
+        sds *argv = sdssplitlen(settings.markets[i].name, strlen(settings.markets[i].name), "/", 1, &argc);
+        settings.markets[i].stock = sdsdup(argv[0]);
+        settings.markets[i].money = sdsdup(argv[1]);
 
-        json_t *money = json_object_get(row, "money");
-        if (!money || !json_is_object(money))
-            return -__LINE__;
-        ERR_RET_LN(read_cfg_str(money, "name", &settings.markets[i].money, NULL));
-        ERR_RET_LN(read_cfg_int(money, "prec", &settings.markets[i].money_prec, true, 0));
+        settings.markets[i].name = sdsempty();
+        settings.markets[i].name = sdscatprintf(settings.markets[i].name, "%s%s", argv[0], argv[1]);
+        sdsfreesplitres(argv, argc);
     }
 
     return 0;
@@ -111,6 +110,13 @@ static int read_config_from_json(json_t *root)
         printf("load assets config fail: %d\n", ret);
         return -__LINE__;
     }
+
+    ret = read_cfg_int(root, "market_num", &settings.market_size, false, 64);
+    if (ret < 0) {
+        printf("load market_num fail: %d\n", ret);
+        return -__LINE__;
+    }
+
     ret = load_markets(root, "markets");
     if (ret < 0) {
         printf("load markets config fail: %d\n", ret);

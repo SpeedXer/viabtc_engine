@@ -5,7 +5,7 @@
         "core_limit": 1000000000
     },
     "log": {
-        "path": "/var/log/trade/matchengine",
+        "path": "log/matchengine",
         "flag": "fatal,error,warn,info,debug,trace",
         "num": 10
     },
@@ -24,15 +24,15 @@
     },
     "cli": "tcp@127.0.0.1:7317",
     "db_log": {
-        "host": "localhost",
-        "user": "user",
-        "pass": "pass",
+        "host": "192.168.10.112",
+        "user": "root",
+        "pass": "123456",
         "name": "trade_log"
     },
     "db_history": {
-        "host": "localhost",
-        "user": "user",
-        "pass": "pass",
+        "host": "192.168.10.112",
+        "user": "root",
+        "pass": "123456",
         "name": "trade_history"
     },
     "assets": [
@@ -70,83 +70,56 @@
             "prec_show": 8
         }
     ],
+    "market_num" : 64,
+    "market-pair": {
+        "//name": "交易对",
+        "name": "BTC/BCH",
+        "//stock_prec": "交易币精度",
+        "stock_prec": 8,
+        "//money_prec": "基准币精度",
+        "money_prec": 8,
+        "//min_amount": "最小委托数量",
+        "min_amount": "0.001"
+    },
     "markets": [
         {
-            "name": "BTCBCH",
-            "stock": {
-                "name": "BTC",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "//name": "交易对",
+            "name": "BTC/BCH",
+            "//stock_prec": "交易币精度",
+            "stock_prec": 8,
+            "//money_prec": "基准币精度",
+            "money_prec": 8,
+            "//min_amount": "最小委托数量",
             "min_amount": "0.001"
         }, {
-            "name": "LTCBCH",
-            "stock": {
-                "name": "LTC",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "name": "LTC/BCH",
+            "stock_prec": 8,
+            "money_prec": 8,
             "min_amount": "0.001"
         }, {
-            "name": "ETHBCH",
-            "stock": {
-                "name": "ETH",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "name": "ETH/BCH",
+            "stock_prec": 8,
+            "money_prec": 8,
             "min_amount": "0.001"
         }, {
-            "name": "ETCBCH",
-            "stock": {
-                "name": "ETC",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "name": "ETC/BCH",
+            "stock_prec": 8,
+            "money_prec": 8,
             "min_amount": "0.001"
         }, {
-            "name": "ZECBCH",
-            "stock": {
-                "name": "ZEC",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "name": "ZEC/BCH",
+            "stock_prec": 8,
+            "money_prec": 8,
             "min_amount": "0.001"
         }, {
-            "name": "XMRBCH",
-            "stock": {
-                "name": "XMR",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "name": "XMR/BCH",
+            "stock_prec": 8,
+            "money_prec": 8,
             "min_amount": "0.001"
         }, {
-            "name": "DSHBCH",
-            "stock": {
-                "name": "DSH",
-                "prec": 8
-            },
-            "money": {
-                "name": "BCH",
-                "prec": 8
-            },
+            "name": "DSH/BCH",
+            "stock_prec": 8,
+            "money_prec": 8,
             "min_amount": "0.001"
         }
     ],
