@@ -7,6 +7,7 @@
 # include "me_server.h"
 # include "me_balance.h"
 # include "me_update.h"
+# include "me_operlog.h"
 # include "me_market.h"
 # include "me_trade.h"
 # include "me_message.h"
